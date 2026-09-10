@@ -1,0 +1,154 @@
+{
+  "name": "Small ChatGPT by Google Sheet",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a helpful AI assistant. Return the answer strictly as a Markdown Table only. Do NOT add any intro, outro, or additional conversational text.\n\nData:\n- Customer Name: {{ $json.Name }}\n- Service: {{ $json.Order }}\n- Price: {{ $json.Price }}\n\nFormat strictly as:\n| Customer Name | Requested Service | Price | Plan Details | Next Steps |\n| --- | --- | --- | --- | --- |\n| [Value] | [Value] | [Value] | [Brief Bullet points] | [Brief next steps] |",
+        "batching": {}
+      },
+      "id": "abb7cb93-8f27-46e0-b9d3-f3375186f1b9",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-5",
+          "cachedResultName": "Claude Sonnet 5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.6,
+      "position": [
+        -80,
+        208
+      ],
+      "id": "19936c98-ce7b-40db-bc9c-c9567e3cd9f4",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "12b_QH8_kEgINePDcgW5uwNTuH4Iyge7Cu-XxwKQXOf0",
+          "mode": "list",
+          "cachedResultName": "Customers' orders",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12b_QH8_kEgINePDcgW5uwNTuH4Iyge7Cu-XxwKQXOf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12b_QH8_kEgINePDcgW5uwNTuH4Iyge7Cu-XxwKQXOf0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Order",
+              "displayName": "Order",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Price",
+              "displayName": "Price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -208,
+        0
+      ],
+      "id": "857f4113-8192-409b-8e36-905f4035dcac",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XybymNoVzzrfwbFn",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "679e3a29-229c-48fd-8213-6befb7114f3c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d8ddd112a514494dfa3692970b3872c291d14f88bbd9f8c611847c8e4a9b0112"
+  },
+  "nodeGroups": [],
+  "id": "75GdE95ooLXMiRLK",
+  "tags": []
+}
