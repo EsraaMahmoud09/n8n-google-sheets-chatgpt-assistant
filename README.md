@@ -1,7 +1,5 @@
 # n8n-google-sheets-chatgpt-assistant
 
-# Small ChatGPT by Google Sheet 
-
 An automated n8n workflow that integrates **Google Sheets** with **Anthropic Claude (LLM)** to process and respond to queries seamlessly.
 
 ### Business Problem
